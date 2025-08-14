@@ -88,16 +88,21 @@ useEffect(() => {
 }, [values]);
 
 
-  function mywheel(e){
-    if(values.length > 9){
-      alert("you can only enter maximum 10 items");
-      return;
-    }
-    e.preventDefault();
-    setValues((prevalues) => [...prevalues,input]);
-    setInput("");
+function mywheel(e){
+  if(values.length > 9){
+    alert("you can only enter maximum 10 items");
+    return;
   }
+  e.preventDefault();
+  setValues((prevalues) => [...prevalues,input]);
+  setInput("");
+}
 
+const handleKeyDown = (e) => {
+   if (e.key === "Enter") {
+     mywheel(e);
+   }
+ };
   function spin(){
     const newRotation = rotation + 360 * 3 + Math.floor(Math.random() * 360);
     setRotation(newRotation);
@@ -110,7 +115,7 @@ useEffect(() => {
       <h1 className="text-[35px]" id="title">Welcome To customization Spin Wheel</h1>
 
       <div className="flex mr-[500px] ml-[570px] mt-[50px]">
-        <input type="text" name="" id="" value={input} onChange={(e)=>setInput(e.target.value)}
+        <input type="text" name="" id="" value={input} onChange={(e)=>setInput(e.target.value)} onKeyDown={handleKeyDown}
         className="border-1 h-[30px] w-[200px] ml-6 mt-6 mb-6 mr-4 rounded-[5px]" />
         <button 
         onClick={(e)=>mywheel(e)}
