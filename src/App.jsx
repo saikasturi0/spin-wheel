@@ -4,6 +4,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { Chart as ChartJS, CategoryScale, LinearScale, ArcElement, PieController, Title, Tooltip, Legend} from 'chart.js';
 import "./App.css"
 
+
 ChartJS.register(
   CategoryScale,
   LinearScale,
@@ -111,32 +112,67 @@ const handleKeyDown = (e) => {
   return (
     <>
     <br />
-    <div className="h-[750px] w-full">
-      <h1 className="text-[35px]" id="title">Welcome To customization Spin Wheel</h1>
+    <div className="min-h-screen w-full flex flex-col items-center py-6 px-4">
+      <h1 className="text-[28px] sm:text-[35px] mb-6 text-center" id="title">
+        Welcome To Customization Spin Wheel
+      </h1>
 
-      <div className="flex mr-[500px] ml-[570px] mt-[50px]">
-        <input type="text" name="" id="" value={input} onChange={(e)=>setInput(e.target.value)} onKeyDown={handleKeyDown}
-        className="border-1 h-[30px] w-[200px] ml-6 mt-6 mb-6 mr-4 rounded-[5px]" />
-        <button 
-        onClick={(e)=>mywheel(e)}
-        className="border-1 h-[30px] w-[70px] mt-6 mr-6 mb-6 rounded-[5px] p-0.5">Add</button>
+      {/* Input Section */}
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        <input
+          type="text"
+          value={input}
+          onChange={(e) => setInput(e.target.value)}
+          onKeyDown={handleKeyDown}
+          className="border-2 border-black h-[40px] w-[80vw] sm:w-[250px] rounded-[5px] px-2"
+          placeholder="Enter item"
+        />
+        <button
+          onClick={(e) => mywheel(e)}
+          className="h-[40px] w-[100px] rounded-[5px] spin-btn"
+        >
+          Add
+        </button>
       </div>
 
+      {/* Wheel with Arrow */}
+      <div className="relative mt-8 flex justify-center">
+        {/* Arrow */}
+        {values.length > 0 && (
+          <div
+            className="bg-purple-700 arrow-sway absolute right-[-40px] top-1/2 -translate-y-1/2"
+            style={{
+              width: "40px",
+              height: "40px",
+              clipPath: "polygon(0 54%, 100% 65%, 100% 44%)",
+            }}
+          ></div>
+        )}
+
+        {/* Wheel */}
         <div
-          className={`${values.length === 0 ? "" : "h-[100px] w-[100px] bg-purple-700 absolute left-[930px] top-[370px] arrow-sway"}`}
-          style={{ clipPath: "polygon(0 54%, 100% 65%, 100% 44%)" }}
-        ></div>
-
-      <div className="h-[400px] w-[400px] ml-[530px] mt-[20px] transition-transform duration-[3000ms] ease-out"
-           style={{ transform: `rotate(${rotation}deg)` }}>
-      <canvas id="wheel"></canvas>
+          className="transition-transform duration-[3000ms] ease-out"
+          style={{
+            transform: `rotate(${rotation}deg)`,
+            width: values.length > 0 ? "min(80vw, 400px)" : "0px",
+            height: values.length > 0 ? "min(80vw, 400px)" : "0px",
+          }}
+        >
+          <canvas id="wheel"></canvas>
+        </div>
       </div>
 
-      <button 
-      onClick={() => spin()}
-      className="h-[50px] w-[150px] rounded-[5px] ml-[658px] border-1 mt-[40px] bg-blue-500 text-white text-2xl "
-      >Spin</button>
+      {/* Spin Button */}
+      {values.length > 0 && (
+        <button
+          onClick={() => spin()}
+          className="h-[45px] w-[140px] rounded-[5px] mt-6 bg-blue-500 text-white text-lg sm:text-2xl"
+        >
+          Spin
+        </button>
+      )}
     </div>
+
     </>
   )
 }
